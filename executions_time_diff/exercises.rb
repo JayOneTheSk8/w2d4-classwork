@@ -33,15 +33,15 @@ def lcs(list)
     end
   end
   # Another way
-  values = subs.map { |sub_arr| sub_arr.reduce(:+) }
-  values.max
+  # values = subs.map { |sub_arr| sub_arr.reduce(:+) }
+  # values.max
   # O(n^3)
 
-  # sorted_subs = subs.sort_by { |sub_arr| sub_arr.reduce(:+) } #O(n^3)
-  # # sort_by changes things a bit but since n^3 is worse than n log n, n ^ 3 is the time complexity
-  # # 'subs' is of size n^2 so
-  # # This is n^2 * n (from the reduce method) or n^3
-  # sorted_subs.last.reduce(:+)
+  sorted_subs = subs.sort_by { |sub_arr| sub_arr.reduce(:+) } #O(n^3)
+  # sort_by changes things a bit but since n^3 is worse than n log n, n ^ 3 is the time complexity
+  # 'subs' is of size n^2 so
+  # This is n^2 * n (from the reduce method) or n^3
+  sorted_subs.last.reduce(:+)
 end
 
 # Phase II
