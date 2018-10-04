@@ -29,19 +29,28 @@ def lcs(list)
   list.each_index do |start_idx| #O(n^2)
     (start_idx...list.length).each do |end_idx|
       subs << list[start_idx..end_idx]
+      #Because this happens n^2 times...
     end
   end
-  sorted_subs = subs.sort_by { |sub_arr| sub_arr.reduce(:+) }
-  sorted_subs.last.reduce(:+)
+  # Another way
+  values = subs.map { |sub_arr| sub_arr.reduce(:+) }
+  values.max
+  # O(n^3)
+
+  # sorted_subs = subs.sort_by { |sub_arr| sub_arr.reduce(:+) } #O(n^3)
+  # # sort_by changes things a bit but since n^3 is worse than n log n, n ^ 3 is the time complexity
+  # # 'subs' is of size n^2 so
+  # # This is n^2 * n (from the reduce method) or n^3
+  # sorted_subs.last.reduce(:+)
 end
 
 # Phase II
 
 def lcs_on(list)
-  return list.max if list.all? { |num| num <= 0 }
-  current_sum = list.first
-  best_sum = list.first
-  list[1..-1].each do |next_num|
+  return list.max if list.all? { |num| num <= 0 } #O(n)
+  current_sum = list.shift
+  best_sum = current_sum
+  list.each do |next_num| #O(n)
     current_sum += next_num
     if current_sum >= best_sum
       best_sum = current_sum
