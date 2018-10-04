@@ -1,4 +1,5 @@
 def first_anagram?(string1, string2)
+  return false unless same_length?(string1, string2)
   letters = string1.chars
   perms = letters.permutation(string1.length).to_a #O(n!) (duh)
   all_words = perms.map(&:join)
@@ -6,6 +7,7 @@ def first_anagram?(string1, string2)
 end
 
 def second_anagram?(string1, string2)
+  return false unless same_length?(string1, string2)
   string2_chars = string2.chars
   string1.each_char do |letter|
     unless string2_chars.find_index(letter) == nil
@@ -22,15 +24,26 @@ def second_anagram?(string1, string2)
 end
 
 def third_anagram?(string1, string2)
+  return false unless same_length?(string1, string2)
   string1.chars.sort == string2.chars.sort
   # Because the fastest sorting algorithms are O(n log n), we can assume that this
   # is two n log n operations
 end
 
 def fourth_anagram?(string1, string2) #BONUS
+  return false unless same_length?(string1, string2)
   letter_hash = Hash.new(0)
-  (string1 + string2).each_char do |letter| #O(n)
+  string1.each_char do |letter| #O(n)
     letter_hash[letter] += 1
   end
-  letter_hash.all? { |_, count| count.even? }
+    #space complexity is constant based on the alphabet as it is only ever going
+    #to be 26 letters => O(1)
+  string2.each_char do |letter|
+    letter_hash[letter] -= 1
+  end
+  letter_hash.all? { |_, count| count.zero? }
+end
+
+def same_length?(string1, string2)
+  string1.length == string2.length
 end
